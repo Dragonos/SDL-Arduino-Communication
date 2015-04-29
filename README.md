@@ -2,7 +2,11 @@
 # Communication between SDL and Arduino
 
 
-This repository contains a demonstration of how we can establish communication between the SDL library and the Arduino boad. The PlaneGame folder contains two versions of the game and the sketsh that should be uploaded to the Arduino board.
+This repository contains a demonstration of how we can establish communication between the SDL library and the Arduino boad. The PlaneGame folder contains three versions of the game and the sketsh that should be uploaded to the Arduino board.
+
+* Version 1 : Without interaction with the Arduino board
+* Version 2 : With direction control with the Arduino board
+* Version 3 : With connection instructions in separate files (arduino.h/arduino.c)
 
 
 ## How to build
