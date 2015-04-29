@@ -39,6 +39,7 @@
 #define SERIAL_PORT_BUFFER_LENGTH   20
 #define PLANE_STEPS   5
 
+int strStartsWith(const char *pre, const char *str);
 void move(SDL_Surface *screen, SDL_Surface *plane, SDL_Rect *planePosition, SDLKey direction);
 
 int main(int argc, char* argv[])
@@ -158,23 +159,32 @@ int main(int argc, char* argv[])
 
         if(serialPortReadDataLength > 0)
         {
-            if(strcmp(serialPortBuffer, "up") == 0)
+            if(strStartsWith("up", serialPortBuffer))
             {
                 move(screen, plane, &planePosition, SDLK_UP);
             }
-            else if(strcmp(serialPortBuffer, "down") == 0)
+            else if(strStartsWith("down", serialPortBuffer))
             {
                 move(screen, plane, &planePosition, SDLK_DOWN);
             }
-            else if(strcmp(serialPortBuffer, "right") == 0)
+            else if(strStartsWith("right", serialPortBuffer))
             {
                 move(screen, plane, &planePosition, SDLK_RIGHT);
             }
-            else if(strcmp(serialPortBuffer, "left") == 0)
+            else if(strStartsWith("left", serialPortBuffer))
             {
                 move(screen, plane, &planePosition, SDLK_LEFT);
             }
         }
+
+        if(planePosition.x == 0)
+            sp_nonblocking_write(serialPort, "Border Left\n", 12);
+        else if(planePosition.x == 800 - plane->w)
+            sp_nonblocking_write(serialPort, "Border Right\n", 13);
+        else if(planePosition.y == 0)
+            sp_nonblocking_write(serialPort, "Border Top\n", 11);
+        else if(planePosition.y == 600 - plane->h)
+            sp_nonblocking_write(serialPort, "Border Bottom\n", 14);
 
         // Update the sea position
 
@@ -233,3 +243,11 @@ void move(SDL_Surface *screen, SDL_Surface *plane, SDL_Rect *planePosition, SDLK
         break;
     }
 }
+
+int strStartsWith(const char *pre, const char *str)
+{
+    size_t lenpre = strlen(pre),
+           lenstr = strlen(str);
+    return lenstr < lenpre ? 0 : strncmp(pre, str, lenpre) == 0;
+}
+
