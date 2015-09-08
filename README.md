@@ -47,7 +47,7 @@ A simple way to make the demo work is to create a new SDL project in Code::Block
 Do not forget to change the SERIAL_PORT constant in the "main.c" file with the Arduino serial port address (COMx).
 
 
-## Licence
+## License
 
 This demonstration (PlaneGame) is licensed under the MIT License except the following files :
 
